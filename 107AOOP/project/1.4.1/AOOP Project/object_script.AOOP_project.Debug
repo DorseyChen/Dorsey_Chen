@@ -1,0 +1,13 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\qcustomplot.o
+./debug\calculation.o
+./debug\input_processing.o
+./debug\graphics.o
+./debug\data_points.o
+./debug\fitting.o
+./debug\qrc_resource.o
+./debug\moc_mainwindow.o
+./debug\moc_qcustomplot.o
+);
