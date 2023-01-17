@@ -1,0 +1,193 @@
+A51 MACRO ASSEMBLER  LAB7_2                                                               11/27/2018 01:17:58 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab7-2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab7-2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0000H
+0000 804E              2             JMP START
+0050                   3             ORG 0050H
+0050                   4     START:
+0050 75F000            5             MOV B,#00H
+0053 7C11              6             MOV     R4,#00010001B
+0055                   7     LOOP:
+0055 E5F0              8             MOV A,B
+0057 B40064            9             CJNE A,#00H,REG
+005A                  10     ROW1:
+005A 75807F           11             MOV P0,#01111111B
+005D 311B             12             CALL DELAY
+005F E580             13             MOV A,P0
+0061 540F             14             ANL A,#00001111B
+0063 7901             15             MOV R1,#1
+0065 B40F1E           16             CJNE A,#00001111B,COL1
+0068                  17     ROW2:
+0068 7580BF           18             MOV P0,#10111111B
+006B 311B             19             CALL DELAY
+006D E580             20             MOV A,P0
+006F 540F             21             ANL A,#00001111B
+0071 7905             22             MOV R1,#5
+0073 B40F10           23             CJNE A,#00001111B,COL1
+0076                  24     ROW3:
+0076 7580DF           25             MOV     P0,#11011111B 
+0079 311B             26             CALL DELAY
+007B E580             27             MOV     A,P0
+007D 540F             28             ANL     A,#00001111B
+007F 7900             29             MOV R1,#0                       
+0081 B40F02           30             CJNE A,#00001111B,COL1 
+0084 80CF             31             JMP LOOP                                         
+0086                  32     COL1:
+0086 B40E0F           33             CJNE A,#00001110B,COL2
+0089 7800             34             MOV R0,#0
+008B B90005           35             CJNE R1,#00H,COL1_1
+008E 75F001           36             MOV B,#01H
+0091 802B             37             JMP     REG
+0093                  38     COL1_1:
+0093 75F000           39             MOV B,#00H
+0096 8040             40             JMP MAIN1
+0098                  41     COL2:
+0098 B40D0F           42             CJNE A,#00001101B,COL3
+009B 7801             43             MOV R0,#1
+009D B90005           44             CJNE R1,#00H,COL2_1
+00A0 75F001           45             MOV B,#01H
+00A3 8019             46             JMP     REG
+00A5                  47     COL2_1:
+00A5 75F000           48             MOV B,#00H
+00A8 802E             49             JMP MAIN1
+00AA                  50     COL3:
+00AA B40B07           51             CJNE A,#00001011B,COL4
+00AD 7802             52             MOV R0,#2
+00AF 75F000           53             MOV B,#00H
+00B2 8024             54             JMP MAIN1
+00B4                  55     COL4:
+00B4 B4079E           56             CJNE A,#00000111B,LOOP   
+00B7 7803             57             MOV R0,#3
+00B9 75F000           58             MOV B,#00H
+A51 MACRO ASSEMBLER  LAB7_2                                                               11/27/2018 01:17:58 PAGE     2
+
+00BC 801A             59             JMP MAIN1       
+                      60     
+00BE                  61     REG:
+00BE EC               62             MOV     A,R4
+00BF B80003           63             CJNE R0,#00H,LEFT
+00C2                  64     RIGHT:  
+00C2 23               65             RL A
+00C3 8001             66             JMP NEXT
+00C5                  67     LEFT:
+00C5 03               68             RR A
+00C6                  69     NEXT:
+00C6 F590             70             MOV p1,A
+00C8 311B             71             CALL DELAY
+00CA FC               72             MOV R4,A
+00CB E5F0             73             MOV     A,B
+00CD 04               74             INC A
+00CE F5F0             75             MOV B,A
+00D0 B49682           76             CJNE A,#150,LOOP
+00D3 75F001           77             MOV B,#01H
+00D6 8082             78             JMP ROW1
+                      79     
+00D8                  80     MAIN1:
+00D8 310E             81             CALL DELAY1S
+00DA 7B00             82             MOV R3,#0
+00DC E8               83             MOV A,R0
+00DD 29               84             ADD A,R1
+00DE FA               85             MOV R2,A
+00DF 9405             86             SUBB A,#5
+00E1 5004             87             JNC MAIN2
+00E3 7411             88             MOV A,#00010001B
+00E5 8009             89             JMP FUN1
+00E7                  90     MAIN2:
+00E7 EA               91             MOV A,R2
+00E8 C3               92             CLR C
+00E9 9404             93             SUBB A,#4
+00EB FA               94             MOV R2,A
+00EC 7411             95             MOV A,#00010001B
+00EE 800F             96             JMP FUN2
+00F0                  97     FUN1:
+00F0 F590             98             MOV P1,A
+00F2 311B             99             CALL DELAY
+00F4 0B              100             INC R3
+00F5 03              101             RR A
+00F6 BB82F7          102             CJNE R3,#130,FUN1
+00F9 7B00            103             MOV R3,#0
+00FB DAF3            104             DJNZ R2 ,FUN1
+00FD 0155            105             JMP LOOP
+00FF                 106     FUN2:
+00FF F590            107             MOV P1,A
+0101 311B            108             CALL DELAY
+0103 0B              109             INC R3
+0104 23              110             RL A
+0105 BB82F7          111             CJNE R3,#130,FUN2
+0108 7B00            112             MOV R3,#0
+010A DAF3            113             DJNZ R2,FUN2
+010C 0155            114             JMP LOOP
+                     115             
+                     116     ;-----±€¬‡Delay-----
+010E                 117     DELAY1S:
+010E 7DFF            118             MOV R5,#255
+0110                 119     DELAY1S1:
+0110 7EFF            120             MOV R6,#255
+0112                 121     DELAY1S2:
+0112 7F0A            122             MOV R7,#10
+0114                 123     DELAY1S3:
+0114 DFFE            124             DJNZ R7,DELAY1S3
+A51 MACRO ASSEMBLER  LAB7_2                                                               11/27/2018 01:17:58 PAGE     3
+
+0116 DEFA            125             DJNZ R6,DELAY1S2
+0118 DDF6            126             DJNZ R5,DELAY1S1
+011A 22              127             RET
+                     128     ;-----¥∂≥qDelay-----
+011B                 129     DELAY:
+011B 7DC8            130             MOV R5,#200
+011D                 131     DELAY1:
+011D 7EFA            132             MOV R6,#250
+011F                 133     DELAY2:
+011F DEFE            134             DJNZ R6,DELAY2
+0121 DDFA            135             DJNZ R5,DELAY1
+0123 22              136             RET
+                     137     END
+A51 MACRO ASSEMBLER  LAB7_2                                                               11/27/2018 01:17:58 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+COL1 . . . . . . .  C ADDR   0086H   A   
+COL1_1 . . . . . .  C ADDR   0093H   A   
+COL2 . . . . . . .  C ADDR   0098H   A   
+COL2_1 . . . . . .  C ADDR   00A5H   A   
+COL3 . . . . . . .  C ADDR   00AAH   A   
+COL4 . . . . . . .  C ADDR   00B4H   A   
+DELAY. . . . . . .  C ADDR   011BH   A   
+DELAY1 . . . . . .  C ADDR   011DH   A   
+DELAY1S. . . . . .  C ADDR   010EH   A   
+DELAY1S1 . . . . .  C ADDR   0110H   A   
+DELAY1S2 . . . . .  C ADDR   0112H   A   
+DELAY1S3 . . . . .  C ADDR   0114H   A   
+DELAY2 . . . . . .  C ADDR   011FH   A   
+FUN1 . . . . . . .  C ADDR   00F0H   A   
+FUN2 . . . . . . .  C ADDR   00FFH   A   
+LEFT . . . . . . .  C ADDR   00C5H   A   
+LOOP . . . . . . .  C ADDR   0055H   A   
+MAIN1. . . . . . .  C ADDR   00D8H   A   
+MAIN2. . . . . . .  C ADDR   00E7H   A   
+NEXT . . . . . . .  C ADDR   00C6H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+REG. . . . . . . .  C ADDR   00BEH   A   
+RIGHT. . . . . . .  C ADDR   00C2H   A   
+ROW1 . . . . . . .  C ADDR   005AH   A   
+ROW2 . . . . . . .  C ADDR   0068H   A   
+ROW3 . . . . . . .  C ADDR   0076H   A   
+START. . . . . . .  C ADDR   0050H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

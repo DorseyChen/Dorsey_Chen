@@ -1,0 +1,60 @@
+A51 MACRO ASSEMBLER  LAB7_1                                                               11/26/2018 22:12:18 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab7-1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab7-1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H
+0000 804E              2             JMP     START
+0050                   3             ORG     0050H
+0050                   4     START:
+0050 7411              5             MOV             A,#00010001B
+0052 7800              6             MOV     R0,#0
+0054                   7     MAIN:
+0054 F590              8             MOV             P1,A
+0056 116C              9             CALL    DELAY
+0058 03               10             RR              A
+0059 08               11             INC             R0
+005A B84BF7           12             CJNE    R0,#75,MAIN
+005D 7800             13             MOV             R0,#0
+005F                  14     MAIN1:
+005F F590             15             MOV             P1,A
+0061 116C             16             CALL    DELAY
+0063 23               17             RL              A
+0064 08               18             INC             R0
+0065 B896F7           19             CJNE    R0,#150,MAIN1
+0068 7800             20             MOV             R0,#0
+006A 80E8             21             JMP             MAIN
+006C                  22     DELAY:
+006C 7EC8             23             MOV     R6,#200
+006E                  24     DELAY1:
+006E 7FFA             25             MOV     R7,#250
+0070                  26     DELAY2:
+0070 DFFE             27             DJNZ    R7,DELAY2
+0072 DEFA             28             DJNZ    R6,DELAY1
+0074 22               29             RET
+                      30     END
+A51 MACRO ASSEMBLER  LAB7_1                                                               11/26/2018 22:12:18 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   006CH   A   
+DELAY1 . . . . . .  C ADDR   006EH   A   
+DELAY2 . . . . . .  C ADDR   0070H   A   
+MAIN . . . . . . .  C ADDR   0054H   A   
+MAIN1. . . . . . .  C ADDR   005FH   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+START. . . . . . .  C ADDR   0050H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

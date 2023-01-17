@@ -1,0 +1,172 @@
+A51 MACRO ASSEMBLER  LAB8_2                                                               12/04/2018 00:28:16 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab8-2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab8-2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0000H
+0000 804E              2             JMP START
+0050                   3             ORG 0050H
+                       4     
+0050                   5     START:
+0050 7880              6             MOV     R0,#10000000B
+0052 7D00              7             MOV     R5,#0
+0054 11FD              8             CALL    DELAY
+0056 11FD              9             CALL    DELAY
+0058 743B             10             MOV     A,#00111011B    ;初始設定，2列、5*7、8位元存取
+005A 11AC             11             CALL    COMMAND         ;把A送到instruction register
+005C 740E             12             MOV     A,#00001110B    ;Display ON,Cursor ON,Blink OFF
+005E 11AC             13             CALL    COMMAND
+0060 7406             14             MOV     A,#00000110B    ;設定寫資料進入LCD時, 顯示器不要動, 游標向右移一格
+0062 11AC             15             CALL    COMMAND
+0064 7401             16             MOV     A,#00000001B    ;清除全螢幕
+0066 11AC             17             CALL    COMMAND
+0068 7D00             18             MOV     R5,#0                   ;延遲等清除LCD命令處理完畢
+006A 11FD             19             CALL    DELAY
+006C 11FD             20             CALL    DELAY
+006E 7440             21             MOV     A,#01000000B    ;設定CG RAM位址
+0070 11AC             22             CALL    COMMAND
+0072 11CD             23             CALL    SETFONT
+0074 7480             24             MOV     A,#10000000B    ;設定DD RAM位址=0
+0076 11AC             25             CALL    COMMAND
+                      26     
+0078                  27     LOOP:   
+0078 7400             28             MOV     A,#00000000B    ;顯示第一個字
+007A 11BD             29             CALL    SENDDATA
+007C 7D64             30             MOV     R5,#100
+007E 11F2             31             CALL    DDELAY
+0080 7401             32             MOV     A,#00000001B    ;清除LCD
+0082 11AC             33             CALL    COMMAND
+0084 7D0A             34             MOV     R5,#10          
+0086 11F2             35             CALL    DDELAY
+0088 E8               36             MOV     A,R0                    ;游標移到第一行開頭
+0089 11AC             37             CALL    COMMAND
+008B 7401             38             MOV     A,#00000001B    ;顯示第二個字
+008D 11BD             39             CALL    SENDDATA
+008F 7D64             40             MOV     R5,#100
+0091 11F2             41             CALL    DDELAY
+0093 7401             42             MOV     A,#00000001B    ;清除LCD
+0095 11AC             43             CALL    COMMAND
+0097 7D0A             44             MOV     R5,#10          
+0099 11F2             45             CALL    DDELAY
+009B E8               46             MOV     A,R0                    ;游標移到第一行開頭
+009C 11AC             47             CALL    COMMAND
+009E 7402             48             MOV     A,#00000010B    ;顯示第三個字
+00A0 11BD             49             CALL    SENDDATA
+00A2 7D64             50             MOV     R5,#100
+00A4 11F2             51             CALL    DDELAY
+00A6 7401             52             MOV     A,#00000001B    ;清除LCD
+00A8 11AC             53             CALL    COMMAND
+00AA 80CC             54             JMP     LOOP
+00AC                  55     COMMAND:
+00AC 759004           56             MOV     P1,#00000100B
+00AF F580             57             MOV     P0,A
+00B1 7F32             58             MOV     R7,#50                  ;延遲等訊號穩定
+A51 MACRO ASSEMBLER  LAB8_2                                                               12/04/2018 00:28:16 PAGE     2
+
+00B3 DFFE             59             DJNZ    R7,$
+00B5 759000           60             MOV     P1,#00000000B   ;關掉溝通
+00B8 7F3C             61             MOV     R7,#60                  ;延遲等訊號處裡完畢     
+00BA DFFE             62             DJNZ    R7,$
+00BC 22               63             RET
+00BD                  64     SENDDATA:
+00BD 759005           65             MOV     P1,#00000101B
+00C0 F580             66             MOV     P0,A
+00C2 7F32             67             MOV     R7,#50                  ;延遲等訊號穩定
+00C4 DFFE             68             DJNZ    R7,$
+00C6 C292             69             CLR     P1.2                    ;躋nable接腳產生負緣訊號
+00C8 7FFA             70             MOV     R7,#250                 ;延遲等訊號處裡完畢     
+00CA DFFE             71             DJNZ    R7,$
+00CC 22               72             RET
+00CD                  73     SETFONT:                                ;造字副程式
+00CD 9000DA           74                     MOV     DPTR,#FONT      ;指標指到字型表開頭
+00D0 7E18             75                     MOV     R6,#8*3         ;一個字8筆資料, n個字共 8 x n 筆資料    
+00D2                  76     NEXT:           
+00D2 E4               77                     CLR     A               ;清除累加器內資料
+00D3 93               78                     MOVC    A,@A+DPTR       ;讀取字型資料
+00D4 11BD             79                     CALL    SENDDATA
+00D6 A3               80                     INC     DPTR            ;指標內容加1, 指到下一行字型
+00D7 DEF9             81                     DJNZ    R6,NEXT
+00D9 22               82                     RET
+                      83                     
+00DA                  84     FONT:                   
+00DA 04               85                     DB      00100B          ;第一個字的5x7字型
+00DB 0A               86                     DB      01010B
+00DC 04               87                     DB      00100B
+00DD 1F               88                     DB      11111B
+00DE 15               89                     DB      10101B
+00DF 04               90                     DB      00100B
+00E0 0A               91                     DB      01010B
+00E1 00               92                     DB      00000B
+                      93     
+00E2 04               94                     DB      00100B          ;第二個字的5x7字型
+00E3 0A               95                     DB      01010B
+00E4 14               96                     DB      10100B
+00E5 1F               97                     DB      11111B
+00E6 05               98                     DB      00101B
+00E7 04               99                     DB      00100B
+00E8 0A              100                     DB      01010B
+00E9 00              101                     DB      00000B
+                     102     
+00EA 04              103                     DB      00100B          ;第三個字的5x7字型
+00EB 0A              104                     DB      01010B
+00EC 05              105                     DB      00101B
+00ED 1F              106                     DB      11111B
+00EE 14              107                     DB      10100B
+00EF 04              108                     DB      00100B
+00F0 0A              109                     DB      01010B
+00F1 00              110                     DB      00000B  
+00F2                 111     DDELAY:
+00F2 7E64            112             MOV     R6,#100
+00F4                 113     DDELAY1:
+00F4 7F64            114             MOV     R7,#100
+00F6                 115     DDELAY2:
+00F6 DFFE            116             DJNZ    R7,DDELAY2      
+00F8 DEFA            117             DJNZ    R6,DDELAY1
+00FA DDF6            118             DJNZ    R5,DDELAY
+00FC 22              119             RET
+00FD                 120     DELAY:
+00FD 7E02            121             MOV     R6,#2
+00FF                 122     DELAY1:
+00FF 7F05            123             MOV     R7,#5
+0101                 124     DELAY2:
+A51 MACRO ASSEMBLER  LAB8_2                                                               12/04/2018 00:28:16 PAGE     3
+
+0101 DFFE            125             DJNZ    R7,DELAY2       
+0103 DEFA            126             DJNZ    R6,DELAY1
+0105 DDF6            127             DJNZ    R5,DELAY
+0107 22              128             RET
+                     129             END
+                                     
+A51 MACRO ASSEMBLER  LAB8_2                                                               12/04/2018 00:28:16 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+COMMAND. . . . . .  C ADDR   00ACH   A   
+DDELAY . . . . . .  C ADDR   00F2H   A   
+DDELAY1. . . . . .  C ADDR   00F4H   A   
+DDELAY2. . . . . .  C ADDR   00F6H   A   
+DELAY. . . . . . .  C ADDR   00FDH   A   
+DELAY1 . . . . . .  C ADDR   00FFH   A   
+DELAY2 . . . . . .  C ADDR   0101H   A   
+FONT . . . . . . .  C ADDR   00DAH   A   
+LOOP . . . . . . .  C ADDR   0078H   A   
+NEXT . . . . . . .  C ADDR   00D2H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SENDDATA . . . . .  C ADDR   00BDH   A   
+SETFONT. . . . . .  C ADDR   00CDH   A   
+START. . . . . . .  C ADDR   0050H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

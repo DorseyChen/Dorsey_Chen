@@ -1,0 +1,105 @@
+A51 MACRO ASSEMBLER  LAB8_1                                                               12/04/2018 00:00:01 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab8-1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab8-1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H
+0000 804E              2             JMP     START
+0050                   3             ORG     0050H
+0050                   4     START:
+0050 9000AA            5             MOV     DPTR,#TABLE
+0053 7D28              6             MOV     R5,#40
+0055 119F              7             CALL    DELAY
+                       8     
+0057 743B              9             MOV     A,#00111011B    ;八位元存取、二列、5x7點矩陣
+0059 1182             10             CALL    COMMAND
+005B 7D02             11             MOV     R5,#2
+005D 119F             12             CALL    DELAY
+                      13     
+005F 740F             14             MOV     A,#00001111B    ;顯示器ON游標閃爍
+0061 1182             15             CALL    COMMAND
+0063 7D02             16             MOV     R5,#2
+0065 119F             17             CALL    DELAY
+                      18     
+0067 7401             19             MOV     A,#00000001B    ;清除螢幕
+0069 1182             20             CALL    COMMAND
+006B 7D28             21             MOV     R5,#40
+006D 119F             22             CALL    DELAY
+                      23     
+006F 7480             24             MOV     A,#10000000B    ;設定DD RAM位置為0
+0071 1182             25             CALL    COMMAND
+0073 7D02             26             MOV     R5,#2
+0075 119F             27             CALL    DELAY
+                      28     ;----------------------
+0077                  29     AGAIN:
+0077 E4               30             CLR     A
+0078 93               31             MOVC    A,@A+DPTR
+0079 A3               32             INC     DPTR
+007A 6004             33             JZ AGAIN1
+007C 118F             34             CALL    SENDDATA
+007E 80F7             35             JMP     AGAIN
+0080                  36     AGAIN1:
+0080 80CE             37             JMP     START
+                      38     ;----------------------
+0082                  39     COMMAND:
+0082 F580             40             MOV     P0,A
+0084 759004           41             MOV     P1,#00000100B   ;E_R/W_RS 100 ->INSTRUCTION REGISTER
+0087 759000           42             MOV     P1,#00000000B   ;E_R/W_RS 000 ->DISABLE
+008A 7D02             43             MOV     R5,#2
+008C 119F             44             CALL    DELAY
+008E 22               45             RET
+                      46     ;----------------------
+008F                  47     SENDDATA:
+008F F580             48             MOV     P0,A
+0091 759005           49             MOV     P1,#00000101B   ;E_R/W_RS 101 ->WRITE TO DD-RAM
+0094 759001           50             MOV     P1,#00000001B   ;E_R/W_RS 001 ->DISABLE
+0097 759000           51             MOV     P1,#00000000B   ;E_R/W_RS 000 ->DISABLE
+009A 7D02             52             MOV     R5,#2
+009C 119F             53             CALL    DELAY
+009E 22               54             RET
+                      55     ;----------------------
+009F                  56     DELAY:
+009F 7EF0             57             MOV     R6,#240
+00A1                  58     DELAY1:
+A51 MACRO ASSEMBLER  LAB8_1                                                               12/04/2018 00:00:01 PAGE     2
+
+00A1 7FFF             59             MOV     R7,#255
+00A3                  60     DELAY2:
+00A3 DFFE             61             DJNZ    R7,DELAY2
+00A5 DEFA             62             DJNZ    R6,DELAY1
+00A7 DDF6             63             DJNZ    R5,DELAY
+00A9 22               64             RET
+                      65     ;----------------------
+00AA                  66     TABLE:
+00AA 30363130         67             DB              "0610837",0
+00AE 38333700                
+                      68     END
+A51 MACRO ASSEMBLER  LAB8_1                                                               12/04/2018 00:00:01 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+AGAIN. . . . . . .  C ADDR   0077H   A   
+AGAIN1 . . . . . .  C ADDR   0080H   A   
+COMMAND. . . . . .  C ADDR   0082H   A   
+DELAY. . . . . . .  C ADDR   009FH   A   
+DELAY1 . . . . . .  C ADDR   00A1H   A   
+DELAY2 . . . . . .  C ADDR   00A3H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SENDDATA . . . . .  C ADDR   008FH   A   
+START. . . . . . .  C ADDR   0050H   A   
+TABLE. . . . . . .  C ADDR   00AAH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
