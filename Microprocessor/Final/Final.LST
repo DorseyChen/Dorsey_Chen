@@ -1,0 +1,151 @@
+A51 MACRO ASSEMBLER  FINAL                                                                01/21/2019 22:11:37 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Final.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Final.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG             0000H
+0000 804E              2             JMP             START
+000B                   3             ORG             000BH                   ;T/C0
+000B 01C0              4             JMP             SET1
+0013                   5             ORG             0013H                   ;INT1
+0013 01C5              6             JMP             GETRESULT       
+0050                   7             ORG             0050H
+0050                   8     START:
+0050 D28A              9             SETB    IT1
+0052 75B804           10             MOV             IP,#00000100B   ;INT1 priority 1
+0055 75A886           11             MOV             IE,#10000110B   ;interrupt enable ,TF0,INT1,ALL
+0058 C290             12             CLR     P1.0
+005A C28D             13             CLR             TF0                             ;clear timer 0 over flow flag
+005C C28F             14             CLR             TF1                             ;clear timer 1 over flow flag
+005E 7589E2           15             MOV             TMOD,#11100010B  ;GATE p3.3 gate control C1 MODE2/NOGATE T0 MODE2
+0061 758CE3           16             MOV             TH0,#227                ;timer0 ²£¥Í¤èªiµ¹counter1 clock¿é¤J(p3.5)¥
+                             Î
+0064 758AE3           17             MOV             TL0,#227                
+0067 D28C             18             SETB    TR0                             ;TR0=1 ¥i¥H¥Ñ¥~³¡±±¨î 
+0069 758D00           19             MOV             TH1,#0                  ;counter1 ¼ÆÁ`¦@count´X¦¸               
+006C 758B00           20             MOV             TL1,#0                   
+006F D28E             21             SETB    TR1                             ;TR1=1 ¥i¥H¥Ñ¥~³¡±±¨î
+0071 7800             22             MOV     R0,#0                   ;±NR0³]¬°¤@­Ó«×¼Æ°Ñ¦Ò   
+0073 79FF             23             MOV             R1,#255
+0075 7A11             24             MOV             R2,#00010001B
+0077 7B11             25             MOV             R3,#00010001B
+0079                  26     MAIN:
+0079 D291             27             SETB   P1.1
+007B 1185             28             CALL   MOVE
+007D C291             29             CLR         P1.1
+007F 1185             30             CALL   MOVE
+0081 1198             31             CALL   CHECK
+0083 80F4             32             JMP MAIN
+0085                  33     MOVE:
+0085 EA               34             MOV             A,R2
+0086 F580             35             MOV             P0,A            
+0088 03               36             RR              A
+0089 FA               37             MOV             R2,A
+008A EB               38             MOV             A,R3
+008B F5A0             39             MOV             P2,A                    
+008D 03               40             RR              A
+008E FB               41             MOV             R3,A
+008F 11D1             42             CALL    DELAY
+0091 08               43             INC             R0
+0092 B864F0           44             CJNE    R0,#100,MOVE
+0095 7800             45             MOV             R0,#0
+0097 22               46             RET
+0098                  47     CHECK:
+0098 E9               48             MOV             A,R1
+0099 9405             49             SUBB    A,#5
+009B 4002             50             JC              MOVEBACK
+009D C3               51             CLR             C
+009E 22               52             RET
+009F                  53     MOVEBACK:
+009F EA               54             MOV             A,R2
+00A0 F580             55             MOV             P0,A            
+00A2 23               56             RL              A
+00A3 FA               57             MOV             R2,A
+A51 MACRO ASSEMBLER  FINAL                                                                01/21/2019 22:11:37 PAGE     2
+
+00A4 EB               58             MOV             A,R3
+00A5 F5A0             59             MOV             P2,A                    
+00A7 23               60             RL              A
+00A8 FB               61             MOV             R3,A            
+00A9 11D1             62             CALL    DELAY
+00AB 08               63             INC             R0
+00AC B8FFF0           64             CJNE    R0,#255,MOVEBACK
+00AF 7800             65             MOV             R0,#0
+00B1 C3               66             CLR             C
+00B2                  67     TURN:
+00B2 EB               68             MOV             A,R3
+00B3 F5A0             69             MOV             P2,A            
+00B5 03               70             RR              A
+00B6 FB               71             MOV             R3,A
+00B7 11D1             72             CALL    DELAY
+00B9 08               73             INC             R0
+00BA B8FFF5           74             CJNE    R0,#255,TURN
+00BD 7800             75             MOV             R0,#0
+00BF 22               76             RET
+00C0                  77     SET1:
+00C0 B290             78             CPL     P1.0                    ;TF0=1
+00C2 C28D             79             CLR     TF0
+00C4 32               80             RETI
+00C5                  81     GETRESULT:                                      ;µ¹trigger ²£¥Íecho±µ¨ìP3.3·íecho high®É±Ò¥
+                             Îcounter1
+00C5 E58B             82             MOV         A,TL1               ;¶}©l±µ¦¬¨Ó¦Ûtimer0ªºclock,echo low®ÉÄ²µointerrupt
+00C7 F9               83             MOV     R1,A
+00C8                  84     INITIALTC:
+00C8 C28F             85             CLR         TF1                         
+00CA 758D00           86             MOV         TH1,#0      
+00CD 758B00           87             MOV         TL1,#0
+00D0 32               88             RETI
+00D1                  89     DELAY:
+00D1 7EC8             90             MOV     R6,#200
+00D3                  91     DELAY1:
+00D3 7F64             92             MOV     R7,#100
+00D5                  93     DELAY2:
+00D5 DFFE             94             DJNZ    R7,DELAY2
+00D7 DEFA             95             DJNZ    R6,DELAY1
+00D9 22               96             RET
+                      97     END
+A51 MACRO ASSEMBLER  FINAL                                                                01/21/2019 22:11:37 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CHECK. . . . . . .  C ADDR   0098H   A   
+DELAY. . . . . . .  C ADDR   00D1H   A   
+DELAY1 . . . . . .  C ADDR   00D3H   A   
+DELAY2 . . . . . .  C ADDR   00D5H   A   
+GETRESULT. . . . .  C ADDR   00C5H   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+INITIALTC. . . . .  C ADDR   00C8H   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+MAIN . . . . . . .  C ADDR   0079H   A   
+MOVE . . . . . . .  C ADDR   0085H   A   
+MOVEBACK . . . . .  C ADDR   009FH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SET1 . . . . . . .  C ADDR   00C0H   A   
+START. . . . . . .  C ADDR   0050H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TURN . . . . . . .  C ADDR   00B2H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
