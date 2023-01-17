@@ -1,0 +1,122 @@
+A51 MACRO ASSEMBLER  LAB10_1                                                              12/18/2018 14:11:02 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab10-1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab10-1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0000H
+0000 0150              2             AJMP MAIN
+000B                   3             ORG 0BH
+000B 0189              4             AJMP TIMER
+0050                   5             ORG 0050H
+0050                   6     MAIN:
+0050 758000            7             MOV     P0,#0H;                         
+0053 758901            8             MOV     TMOD,#00000001B;        設定timer mode1
+0056 758CF1            9             MOV     TH0,#11110001B;         給timer register第一個音
+0059 758A18           10             MOV     TL0,#00011000B;                         
+005C D2A9             11             SETB    ET0;                            啟用timer0 interrupt
+005E C28D             12             CLR     TF0;                            重置interrupt flag
+0060 D2AF             13             SETB    EA;                                     啟用interrupt
+0062 D28C             14             SETB    TR0;                            設定edge trigger        
+0064                  15     START:
+0064 7B00             16             MOV     R3,#0H;                         暫存用
+0066 7C0D             17             MOV     R4,#13;                         一共七個音
+0068                  18     SOUND:  
+0068 900091           19             MOV     DPTR,#TABLE             
+006B EB               20             MOV     A,R3
+006C 93               21             MOVC    A,@A+DPTR
+006D F8               22             MOV     R0,A;                           ;放入high 8bit
+006E 0B               23             INC     R3;
+                      24     
+006F EB               25             MOV     A,R3
+0070 93               26             MOVC    A,@A+DPTR
+0071 F9               27             MOV     R1,A;                           ;放入low 8bit
+0072 0B               28             INC     R3;
+                      29     
+0073 EB               30             MOV     A,R3
+0074 93               31             MOVC    A,@A+DPTR                       ;放入震盪次數
+0075 FA               32             MOV     R2,A;
+0076 0B               33             INC     R3;
+                      34             
+0077 1185             35             ACALL   LOOP;                           進入空loop
+                      36     
+0079 DCED             37             DJNZ    R4,SOUND;
+                      38     
+007B 11B8             39             CALL    DELAY;
+007D 11B8             40             CALL    DELAY;
+007F 11B8             41             CALL    DELAY;
+0081 11B8             42             CALL    DELAY;
+                      43     
+0083 80DF             44             JMP     START;
+0085                  45     LOOP:
+0085 BA00FD           46             CJNE    R2,#0H,LOOP;            interrupt R2 次
+0088 22               47             RET;    
+0089                  48     TIMER:
+0089 B280             49             CPL     P0.0;                           P0.0震盪
+008B 888C             50             MOV     TH0,R0;                         重新放入timer時間
+008D 898A             51             MOV     TL0,R1; 
+008F 1A               52             DEC     R2;                                     震盪一次 R2--
+0090 32               53             RETI; 
+0091                  54     TABLE:                                                  ;timer時間 high 8bit;timer時間 low 
+                             8bit;震盪次數
+0091 F609C4           55             DB      11110110B,00001001B,196 ;SOL
+0094 F42AA5           56             DB      11110100B,00101010B,165 ;MI
+0097 F42A52           57             DB      11110100B,00101010B,82  ;MI
+A51 MACRO ASSEMBLER  LAB10_1                                                              12/18/2018 14:11:02 PAGE     2
+
+                      58     
+009A F4D7AF           59             DB      11110100B,11010111B,175 ;FA
+009D F2B793           60             DB      11110010B,10110111B,147 ;RE
+00A0 F2B749           61             DB      11110010B,10110111B,73  ;RE
+                      62     
+00A3 F11883           63             DB      11110001B,00011000B,131 ;DO
+00A6 F2B793           64             DB      11110010B,10110111B,147 ;RE
+00A9 F42AA5           65             DB      11110100B,00101010B,165 ;MI
+00AC F4D7AF           66             DB      11110100B,11010111B,175 ;FA
+                      67     
+00AF F609C4           68             DB      11110110B,00001001B,196 ;SOL
+00B2 F609C4           69             DB      11110110B,00001001B,196 ;SOL
+00B5 F60962           70             DB      11110110B,00001001B,98  ;SOL
+00B8                  71     DELAY:
+00B8 7EFF             72             MOV     R6,#255
+00BA                  73     DELAY1:
+00BA 7FFF             74             MOV             R7,#255
+00BC                  75     DELAY2: 
+00BC DFFE             76             DJNZ    R7,DELAY2
+00BE DEFA             77             DJNZ    R6,DELAY1
+00C0 22               78             RET
+                      79     END
+A51 MACRO ASSEMBLER  LAB10_1                                                              12/18/2018 14:11:02 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   00B8H   A   
+DELAY1 . . . . . .  C ADDR   00BAH   A   
+DELAY2 . . . . . .  C ADDR   00BCH   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+LOOP . . . . . . .  C ADDR   0085H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+SOUND. . . . . . .  C ADDR   0068H   A   
+START. . . . . . .  C ADDR   0064H   A   
+TABLE. . . . . . .  C ADDR   0091H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TIMER. . . . . . .  C ADDR   0089H   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

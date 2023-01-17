@@ -1,0 +1,170 @@
+A51 MACRO ASSEMBLER  LAB10_2                                                              12/18/2018 14:11:59 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab10-2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab10-2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0000H
+0000 0150              2             AJMP MAIN
+000B                   3             ORG 0BH
+000B 01D6              4             AJMP TIMER
+0050                   5             ORG 0050H
+0050                   6     MAIN:
+0050 758000            7             MOV P0,#0H
+0053 758901            8             MOV TMOD,#00000001B
+0056 758CF1            9             MOV TH0,#0F1H
+0059 758A18           10             MOV TL0,#18H
+005C D2A9             11             SETB ET0
+005E C28D             12             CLR TF0
+0060 D2AF             13             SETB EA
+0062 D28C             14             SETB TR0                        
+                      15             
+0064                  16     START:
+0064                  17             ROW1:
+0064 75907F           18             MOV P1,#7FH             
+0067 3102             19             CALL DELAY
+0069 E590             20             MOV A,P1
+006B 540F             21             ANL A,#0FH          
+006D 7D00             22             MOV R5,#0
+006F B40F2C           23             CJNE A,#0FH,COL1  
+0072                  24     ROW2:                           
+0072 7590BF           25             MOV P1,#0BFH
+0075 3102             26             CALL DELAY
+0077 E590             27             MOV A,P1
+0079 540F             28             ANL A,#0FH
+007B 7D0C             29             MOV R5,#12
+007D B40F1E           30             CJNE A,#0FH,COL1 
+0080                  31     ROW3:                                   
+0080 7590DF           32             MOV P1,#0DFH            
+0083 3102             33             CALL DELAY
+0085 E590             34             MOV A,P1
+0087 540F             35             ANL A,#0FH
+0089 7D18             36             MOV R5,#24
+008B B40F10           37             CJNE A,#0FH,COL1 
+008E                  38     ROW4:                                   
+008E 7590EF           39             MOV P1,#0EFH
+0091 3102             40             CALL DELAY
+0093 E590             41             MOV A,P1
+0095 540F             42             ANL A,#0FH      
+0097 7D24             43             MOV R5,#36
+0099 B40F02           44             CJNE A,#0FH,COL1  
+009C 80C6             45             JMP ROW1                  
+009E                  46     COL1:
+009E B40E04           47             CJNE A,#0EH,COL2        
+00A1 7C00             48             MOV R4,#0                        
+00A3 8013             49             JMP SHOW
+00A5                  50     COL2:
+00A5 B40D04           51             CJNE A,#0DH,COL3        
+00A8 7C03             52             MOV R4,#3                       
+00AA 800C             53             JMP SHOW
+00AC                  54     COL3:
+00AC B40B04           55             CJNE A,#0BH,COL4         
+00AF 7C06             56             MOV R4,#6               
+00B1 8005             57             JMP SHOW
+00B3                  58     COL4:
+A51 MACRO ASSEMBLER  LAB10_2                                                              12/18/2018 14:11:59 PAGE     2
+
+00B3 B407AE           59             CJNE A,#07H,ROW1        
+00B6 7C09             60             MOV R4,#9               
+00B8                  61     SHOW:
+00B8 D28C             62             SETB TR0;
+00BA ED               63             MOV A,R5
+00BB 2C               64             ADD A,R4
+00BC FB               65             MOV R3,A                        
+00BD                  66     SOUND:  
+00BD 9000DE           67             MOV DPTR,#TABLE  
+00C0 EB               68             MOV A,R3
+00C1 93               69             MOVC A,@A+DPTR
+00C2 F8               70             MOV R0,A;               
+00C3 0B               71             INC R3;
+                      72     
+00C4 EB               73             MOV A,R3
+00C5 93               74             MOVC A,@A+DPTR
+00C6 F9               75             MOV R1,A;               
+00C7 0B               76             INC R3;
+                      77     
+00C8 EB               78             MOV A,R3
+00C9 93               79             MOVC A,@A+DPTR
+00CA FA               80             MOV R2,A
+00CB 0B               81             INC R3
+                      82             
+00CC 11D2             83             ACALL LOOP
+                      84     
+00CE C28C             85             CLR TR0
+00D0 8092             86             JMP START;
+00D2                  87     LOOP:
+00D2 BA00FD           88             CJNE R2,#0H,LOOP 
+00D5 22               89             RET;    
+00D6                  90     TIMER:
+00D6 B280             91             CPL P0.0
+00D8 888C             92             MOV TH0,R0
+00DA 898A             93             MOV TL0,R1
+00DC 1A               94             DEC R2          
+00DD 32               95             RETI
+00DE                  96     TABLE:                                  ;timer時間 high 8bit;timer時間 low 8bit;震盪次數
+00DE F11883           97             DB      0F1H,018H,131
+00E1 F27090           98             DB  0F2H,070H,144
+00E4 F2B793           99             DB      0F2H,0B7H,147
+00E7 F3DFA1          100             DB      0F3H,0DFH,161
+00EA F42AA5          101             DB      0F4H,02AH,165
+00ED F4D7AF          102             DB      0F4H,0D7H,175
+00F0 F572B9          103             DB  0F5H,72H,185
+00F3 F609C4          104             DB      0F6H,09H,196
+00F6 F69DD0          105             DB  0F6H,9DH,208
+00F9 F720DC          106             DB      0F7H,20H,220
+00FC F79FE9          107             DB  0F7H,9FH,233
+00FF F818F7          108             DB      0F8H,18H,247
+0102                 109     DELAY:          
+0102 7E50            110             MOV R6,#80
+0104                 111     DELAY2:
+0104 7F64            112             MOV R7,#100
+0106                 113     DELAY3:
+0106 DFFE            114             DJNZ R7,DELAY3
+0108 DEFA            115             DJNZ R6,DELAY2
+010A 22              116             RET
+                     117     
+                     118             END
+A51 MACRO ASSEMBLER  LAB10_2                                                              12/18/2018 14:11:59 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+COL1 . . . . . . .  C ADDR   009EH   A   
+COL2 . . . . . . .  C ADDR   00A5H   A   
+COL3 . . . . . . .  C ADDR   00ACH   A   
+COL4 . . . . . . .  C ADDR   00B3H   A   
+DELAY. . . . . . .  C ADDR   0102H   A   
+DELAY2 . . . . . .  C ADDR   0104H   A   
+DELAY3 . . . . . .  C ADDR   0106H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+LOOP . . . . . . .  C ADDR   00D2H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+ROW1 . . . . . . .  C ADDR   0064H   A   
+ROW2 . . . . . . .  C ADDR   0072H   A   
+ROW3 . . . . . . .  C ADDR   0080H   A   
+ROW4 . . . . . . .  C ADDR   008EH   A   
+SHOW . . . . . . .  C ADDR   00B8H   A   
+SOUND. . . . . . .  C ADDR   00BDH   A   
+START. . . . . . .  C ADDR   0064H   A   
+TABLE. . . . . . .  C ADDR   00DEH   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TIMER. . . . . . .  C ADDR   00D6H   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

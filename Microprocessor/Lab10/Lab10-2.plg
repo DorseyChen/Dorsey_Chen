@@ -1,0 +1,23 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+E:\Lab10\Lab10-2.uv2
+Project File Date:  12/17/2018
+
+<h2>Output:</h2>
+assembling Lab10-2.asm...
+Lab10-2.asm - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling Lab10-2.asm...
+linking...
+Program Size: data=8.0 xdata=0 code=267
+"Lab10-2" - 0 Error(s), 0 Warning(s).
+assembling Lab10-2.asm...
+Lab10-2.asm - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling Lab10-2.asm...
+linking...
+Program Size: data=8.0 xdata=0 code=267
+"Lab10-2" - 0 Error(s), 0 Warning(s).

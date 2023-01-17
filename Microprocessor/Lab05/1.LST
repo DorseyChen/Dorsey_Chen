@@ -1,0 +1,136 @@
+A51 MACRO ASSEMBLER  1                                                                    11/11/2018 04:17:26 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN 1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE 1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG             0000H
+0000 804E              2             JMP             START
+0050                   3             ORG             0050H
+0050                   4     START:
+0050 9000C5            5             MOV             DPTR,#TABLE     
+0053 8013              6             JMP             ROW1    
+0055 7800              7             MOV             R0,#0
+0057 7B00              8             MOV             R3,#0
+0059                   9     CURRENT_SHOW:
+0059 EB               10             MOV             A,R3     
+005A 28               11             ADD             A,R0     
+005B FA               12             MOV             R2,A     
+                      13             
+005C 93               14             MOVC    A,@A+DPTR
+005D F590             15             MOV             P1,A                    
+005F 11C0             16             CALL    DELAY
+                      17             
+0061 0A               18             INC             R2
+0062 EA               19             MOV             A,R2
+0063 93               20             MOVC    A,@A+DPTR
+0064 F590             21             MOV             P1,A            
+0066 11C0             22             CALL    DELAY
+0068                  23     ROW1:
+0068 75807F           24             MOV             P0,#01111111B   
+006B 11C0             25             CALL    DELAY
+006D E580             26             MOV             A,P0
+006F 540F             27             ANL             A,#00001111B
+0071 7900             28             MOV             R1,#0    
+0073 B40F2C           29             CJNE    A,#00001111B,COL1        
+0076                  30     ROW2:
+0076 7580BF           31             MOV             P0,#10111111B
+0079 11C0             32             CALL    DELAY
+007B E580             33             MOV             A,P0
+007D 540F             34             ANL             A,#00001111B
+007F 7908             35             MOV             R1,#8    
+0081 B40F1E           36             CJNE    A,#00001111B,COL1       
+0084                  37     ROW3:
+0084 7580DF           38             MOV             P0,#11011111B 
+0087 11C0             39             CALL    DELAY
+0089 E580             40             MOV             A,P0
+008B 540F             41             ANL             A,#00001111B
+008D 7910             42             MOV             R1,#16   
+008F B40F10           43             CJNE    A,#00001111B,COL1 
+0092                  44     ROW4:
+0092 7580EF           45             MOV             P0,#11101111B   
+0095 11C0             46             CALL    DELAY
+0097 E580             47             MOV             A,P0
+0099 540F             48             ANL             A,#00001111B
+009B 7918             49             MOV             R1,#24   
+009D B40F02           50             CJNE    A,#00001111B,COL1 
+00A0 80B7             51             JMP             CURRENT_SHOW     
+00A2                  52     COL1:
+00A2 B40E04           53             CJNE    A,#00001110B,COL2       
+00A5 7800             54             MOV             R0,#0    
+00A7 8013             55             JMP             SHOW
+00A9                  56     COL2:
+00A9 B40D04           57             CJNE    A,#00001101B,COL3 
+00AC 7802             58             MOV             R0,#2    
+A51 MACRO ASSEMBLER  1                                                                    11/11/2018 04:17:26 PAGE     2
+
+00AE 800C             59             JMP             SHOW
+00B0                  60     COL3:
+00B0 B40B04           61             CJNE    A,#00001011B,COL4 
+00B3 7804             62             MOV             R0,#4    
+00B5 8005             63             JMP             SHOW
+00B7                  64     COL4:
+00B7 B4079F           65             CJNE    A,#00000111B,CURRENT_SHOW        
+00BA 7806             66             MOV             R0,#6    
+00BC                  67     SHOW:
+00BC E9               68             MOV             A,R1    
+00BD FB               69             MOV             R3,A     
+00BE 8099             70             JMP             CURRENT_SHOW
+                      71     ;--------------------------²Ä¤@ºØdelay
+00C0                  72     DELAY:
+00C0 7DFF             73             MOV             R5,#255
+00C2                  74     DELAY1:
+00C2 DDFE             75             DJNZ    R5,DELAY1
+00C4 22               76             RET
+                      77     ;--------------------------      
+00C5                  78     TABLE:
+00C5 F070             79             DB              11110000B,01110000B       
+00C7 F071             80             DB              11110000B,01110001B       
+00C9 F072             81             DB              11110000B,01110010B       
+00CB F073             82             DB              11110000B,01110011B   
+00CD F074             83             DB              11110000B,01110100B       
+00CF F075             84             DB              11110000B,01110101B     
+00D1 F076             85             DB              11110000B,01110110B     
+00D3 F077             86             DB              11110000B,01110111B     
+00D5 F078             87             DB              11110000B,01111000B     
+00D7 F079             88             DB              11110000B,01111001B     
+00D9 B170             89             DB              10110001B,01110000B   
+00DB B171             90             DB              10110001B,01110001B       
+00DD B172             91             DB              10110001B,01110010B     
+00DF B173             92             DB              10110001B,01110011B
+00E1 B174             93             DB              10110001B,01110100B
+00E3 B175             94             DB              10110001B,01110101B
+                      95     END
+A51 MACRO ASSEMBLER  1                                                                    11/11/2018 04:17:26 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+COL1 . . . . . . .  C ADDR   00A2H   A   
+COL2 . . . . . . .  C ADDR   00A9H   A   
+COL3 . . . . . . .  C ADDR   00B0H   A   
+COL4 . . . . . . .  C ADDR   00B7H   A   
+CURRENT_SHOW . . .  C ADDR   0059H   A   
+DELAY. . . . . . .  C ADDR   00C0H   A   
+DELAY1 . . . . . .  C ADDR   00C2H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+ROW1 . . . . . . .  C ADDR   0068H   A   
+ROW2 . . . . . . .  C ADDR   0076H   A   
+ROW3 . . . . . . .  C ADDR   0084H   A   
+ROW4 . . . . . . .  C ADDR   0092H   A   
+SHOW . . . . . . .  C ADDR   00BCH   A   
+START. . . . . . .  C ADDR   0050H   A   
+TABLE. . . . . . .  C ADDR   00C5H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

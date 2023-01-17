@@ -1,0 +1,104 @@
+A51 MACRO ASSEMBLER  LAB06                                                                11/19/2018 22:23:08 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab06.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab06.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG             0000H
+0000 804E              2             JMP             LED_SHOW
+0050                   3             ORG             0050H
+0050                   4     LED_SHOW:
+0050 20B2FD            5             JB P3.2,LED_SHOW
+0053 7848              6             MOV R0,#72
+0055 900075            7             MOV DPTR,#TABLE
+0058 7918              8             MOV R1,#24
+005A                   9     NEXT_COLUMN:
+005A 116C             10             CALL READ_BYTE
+005C F580             11             MOV P0,A
+005E 116C             12             CALL READ_BYTE
+0060 F5A0             13             MOV P2,A
+0062 116C             14             CALL READ_BYTE
+0064 F590             15             MOV P1,A
+0066 11BD             16             CALL DELAY
+0068 D9F0             17             DJNZ R1,NEXT_COLUMN
+006A 80E4             18             JMP     LED_SHOW
+006C                  19     READ_BYTE:                
+006C D803             20             DJNZ R0,FILL
+006E 7848             21             MOV R0,#72
+0070 22               22             RET
+0071                  23     FILL:
+0071 E8               24             MOV A,R0
+0072 93               25             MOVC A,@A+DPTR
+0073 F4               26             CPL A
+0074 22               27             RET
+                      28     ;---------------------------------------
+0075                  29     TABLE:
+0075 000000           30             DB 00000000B,00000000B,00000000B
+0078 000C00           31             DB 00000000B,00001100B,00000000B
+007B 000C60           32             DB 00000000B,00001100B,01100000B
+007E 000C60           33             DB 00000000B,00001100B,01100000B
+0081 000C60           34             DB 00000000B,00001100B,01100000B        
+0084 3FFFE0           35             DB 00111111B,11111111B,11100000B
+0087 3FFFE0           36             DB 00111111B,11111111B,11100000B
+008A 000C60           37             DB 00000000B,00001100B,01100000B
+008D 000C60           38             DB 00000000B,00001100B,01100000B
+0090 000C60           39             DB 00000000B,00001100B,01100000B        
+0093 0C0C30           40             DB 00001100B,00001100B,00110000B
+0096 0CFF30           41             DB 00001100B,11111111B,00110000B
+0099 0C9930           42             DB 00001100B,10011001B,00110000B
+009C 0C9930           43             DB 00001100B,10011001B,00110000B
+009F 0C9930           44             DB 00001100B,10011001B,00110000B
+00A2 FFFFFE           45             DB 11111111B,11111111B,11111110B
+00A5 FFFFFE           46             DB 11111111B,11111111B,11111110B
+00A8 0C9930           47             DB 00001100B,10011001B,00110000B
+00AB 0C9930           48             DB 00001100B,10011001B,00110000B
+00AE 0C9930           49             DB 00001100B,10011001B,00110000B
+00B1 0CFF30           50             DB 00001100B,11111111B,00110000B
+00B4 0C0030           51             DB 00001100B,00000000B,00110000B
+00B7 000000           52             DB 00000000B,00000000B,00000000B
+00BA 000000           53             DB 00000000B,00000000B,00000000B
+                      54     ;----------------------------------------
+00BD                  55     DELAY:
+00BD 7D3F             56             MOV R5,#03FH                                                                     
+00BF                  57     DELAY1:
+00BF 7E1F             58             MOV R6,#01FH
+A51 MACRO ASSEMBLER  LAB06                                                                11/19/2018 22:23:08 PAGE     2
+
+00C1                  59     DELAY2:
+00C1 7F01             60             MOV R7,#01H
+00C3                  61     DELAY3:
+00C3 DFFE             62             DJNZ R7,DELAY3
+00C5 DEFA             63             DJNZ R6,DELAY2
+00C7 DDF6             64             DJNZ R5,DELAY1
+00C9 22               65             RET
+                      66     END
+A51 MACRO ASSEMBLER  LAB06                                                                11/19/2018 22:23:08 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   00BDH   A   
+DELAY1 . . . . . .  C ADDR   00BFH   A   
+DELAY2 . . . . . .  C ADDR   00C1H   A   
+DELAY3 . . . . . .  C ADDR   00C3H   A   
+FILL . . . . . . .  C ADDR   0071H   A   
+LED_SHOW . . . . .  C ADDR   0050H   A   
+NEXT_COLUMN. . . .  C ADDR   005AH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+READ_BYTE. . . . .  C ADDR   006CH   A   
+TABLE. . . . . . .  C ADDR   0075H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
