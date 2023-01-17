@@ -1,0 +1,62 @@
+/* BasicShapes.css */
+/* CSS that styles various two-dimensional shapes */
+
+Line, Rectangle, Circle, Ellipse, Arc, QuadCurve {
+	-fx-stroke-width: 10;
+}
+
+#line1 {
+	-fx-stroke: red;
+	-fx-arc-width: 77;
+	-fx-stroke-line-cap: square;
+	-fx-arc-height: 55;
+	-fx-fill: blue;
+}
+#line2 {
+	-fx-stroke: rgba(0%, 50%, 0%, 0.5);
+	-fx-stroke-line-cap: round;
+	-fx-arc-width: 77;
+	-fx-stroke-line-cap: round;
+	-fx-arc-height: 54;
+	-fx-fill: yellow;
+}
+
+Rectangle {
+	-fx-stroke: red;
+	-fx-arc-width: 66;
+	-fx-stroke-line-cap: round;
+	-fx-arc-height: 52;
+	-fx-fill: purple;
+}
+
+Circle {
+	-fx-stroke: red;
+	-fx-arc-width: 21;
+	-fx-stroke-line-cap: round;
+	-fx-arc-height: 20;
+	-fx-fill: radial-gradient(center 50% 50%, radius 60%, red, white);
+}
+
+Ellipse {
+	-fx-stroke: yellow;
+	-fx-arc-width: 35;
+	-fx-stroke-line-cap: round;
+	-fx-arc-height: 53;
+	-fx-fill: image-pattern("miku.png");
+}
+
+Arc {
+	-fx-stroke: black;
+	-fx-arc-width: 45;
+	-fx-stroke-line-cap: round;
+	-fx-arc-height: 50;
+	-fx-fill: linear-gradient(to left, black, green);
+}
+
+QuadCurve {
+	-fx-stroke: blue;
+	-fx-arc-width: 60;
+	-fx-stroke-line-cap: round;
+	-fx-stroke-line-cap: square;
+	-fx-arc-height: 61;
+}

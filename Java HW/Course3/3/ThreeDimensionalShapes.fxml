@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Box?>
+<?import javafx.scene.shape.Cylinder?>
+<?import javafx.scene.shape.Sphere?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ThreeDimensionalShapesController">
+   <children>
+      <Box fx:id="box" depth="100" height="100" layoutX="100.0" layoutY="100.0" rotate="30.0" width="100">
+         <rotationAxis>
+            <Point3D x="1.0" y="1.0" z="1.0" />
+         </rotationAxis>
+      </Box>
+      <Cylinder fx:id="cylinder" height="100" layoutX="265.0" layoutY="100.0" radius="50.0" rotate="-45.0">
+         <rotationAxis>
+            <Point3D x="1.0" y="1.0" z="1.0" />
+         </rotationAxis>
+      </Cylinder>
+      <Sphere fx:id="sphere" layoutX="430.0" layoutY="100.0" radius="60.0" />
+   </children>
+</Pane>

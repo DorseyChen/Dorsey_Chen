@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BasicShapes.fxml -->
+<!-- Defining Shape objects and styling via CSS -->
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Arc?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.QuadCurve?>
+
+<Pane id="Pane" prefHeight="600.0" prefWidth="1000.0"
+	stylesheets="@BasicShapes.css" xmlns="http://javafx.com/javafx/8.0.60"
+	xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<Ellipse fx:id="ellipse" centerX="500.0" centerY="330.0"
+			radiusX="300.0" radiusY="350.0" />
+		<Line fx:id="line1" endX="520.0" endY="100.0"
+			startX="610.0" startY="10.0" />
+		<Line fx:id="line2" endX="610.0" endY="100.0"
+			startX="520.0" startY="10.0" />
+		<Rectangle fx:id="rectangle" height="200.0" layoutX="120.0"
+			layoutY="450.0" width="90.0" />
+		<Circle fx:id="circle" centerX="525.0" centerY="275.0"
+			radius="40.0" />
+		<Circle fx:id="circle" centerX="375.0" centerY="275.0"
+			radius="40.0" />
+		<Arc fx:id="arc" centerX="150.0" centerY="400.0" length="270.0"
+			radiusX="60.0" radiusY="75.0" startAngle="100.0" type="ROUND" />
+		<QuadCurve fx:id="quadcurve" endX="150.0" endY="410.0"
+			startX="170.0" startY="420.0" />
+	</children>
+</Pane>
