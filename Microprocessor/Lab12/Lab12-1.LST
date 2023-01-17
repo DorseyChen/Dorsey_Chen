@@ -1,0 +1,103 @@
+A51 MACRO ASSEMBLER  LAB12_1                                                              01/08/2019 13:48:57 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab12-1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab12-1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG    00H
+0000 804E              2             JMP    MAIN
+0050                   3             ORG    50H
+0050                   4     MAIN:
+0050 758920            5             MOV     TMOD,#00100000B                  ;TIMER1:12MHz MODE 2 
+0053 758BE6            6             MOV     TL1,#0E6H                        ;BAUD RATE 1200
+0056 758DE6            7             MOV     TH1,#0E6H                                                        
+0059 759850            8             MOV     SCON,#01010000B                  ;SERIAL MODE1
+005C 53877F            9             ANL     PCON,#01111111B                  ;SMOD=0
+005F D28E             10             SETB    TR1                              ;TIMER1 START
+0061 C298             11             CLR     RI
+0063                  12     WAITa:                                           ;┕パSERIAL钡Μ计
+0063 3098FD           13             JNB     RI,WAITa
+0066 E599             14             MOV     A,SBUF
+0068 C298             15             CLR     RI                               ;ASCII-48 = 计计
+006A 9430             16             SUBB    A,#48
+006C 4470             17             ORL     A,#70H                           ;+70H眔LED计
+006E FB               18             MOV     R3,A    
+006F                  19     WAITb:
+006F 3098FD           20             JNB     RI,WAITb
+0072 E599             21             MOV     A,SBUF
+0074 C298             22             CLR     RI
+0076 9430             23             SUBB    A,#48                            ;ASCII-48 = 计计
+0078 44B0             24             ORL     A,#0B0H                          ;+B0H眔LED计
+007A FA               25             MOV     R2,A    
+007B                  26     WAITc:
+007B 3098FD           27             JNB     RI,WAITc
+007E E599             28             MOV     A,SBUF
+0080 C298             29             CLR     RI
+0082 9430             30             SUBB    A,#48                            ;ASCII-48 = 计计
+0084 44D0             31             ORL     A,#0D0H                          ;+D0H眔LED计
+0086 F9               32             MOV     R1,A    
+0087                  33     WAITd:
+0087 3098FD           34             JNB     RI,WAITd
+008A E599             35             MOV     A,SBUF
+008C C298             36             CLR     RI
+008E 9430             37             SUBB    A,#48                            ;ASCII-48 = 计计
+0090 44E0             38             ORL     A,#0E0H                          ;+E0H眔LED计
+0092 F8               39             MOV     R0,A    
+0093                  40     SHOW:                                            ;礚癹伴ㄏㄤ陪ボ
+0093 8B80             41             MOV     P0,R3
+0095 11A5             42             CALL    DELAY
+0097 8A80             43             MOV     P0,R2
+0099 11A5             44             CALL    DELAY
+009B 8980             45             MOV     P0,R1
+009D 11A5             46             CALL    DELAY
+009F 8880             47             MOV     P0,R0
+00A1 11A5             48             CALL    DELAY
+00A3 80EE             49             JMP     SHOW
+                      50             
+                      51             
+00A5                  52     DELAY:
+00A5 7C0C             53             MOV R4, #12
+00A7                  54     DELAY1:
+00A7 7DFF             55             MOV R5, #0FFH
+00A9                  56     DELAY2:
+00A9 DDFE             57             DJNZ R5, DELAY2
+00AB DCFA             58             DJNZ R4, DELAY1
+A51 MACRO ASSEMBLER  LAB12_1                                                              01/08/2019 13:48:57 PAGE     2
+
+00AD 22               59             RET
+                      60     END
+A51 MACRO ASSEMBLER  LAB12_1                                                              01/08/2019 13:48:57 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   00A5H   A   
+DELAY1 . . . . . .  C ADDR   00A7H   A   
+DELAY2 . . . . . .  C ADDR   00A9H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+PCON . . . . . . .  D ADDR   0087H   A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SHOW . . . . . . .  C ADDR   0093H   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+WAITA. . . . . . .  C ADDR   0063H   A   
+WAITB. . . . . . .  C ADDR   006FH   A   
+WAITC. . . . . . .  C ADDR   007BH   A   
+WAITD. . . . . . .  C ADDR   0087H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

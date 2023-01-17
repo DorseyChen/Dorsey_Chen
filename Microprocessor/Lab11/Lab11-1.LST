@@ -1,0 +1,112 @@
+A51 MACRO ASSEMBLER  LAB11_1                                                              12/25/2018 13:09:36 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab11-1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab11-1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG             0000H
+0000 804E              2             JMP             START
+000B                   3             ORG             000BH           ;T/C0
+000B 807B              4             JMP             SET1
+0013                   5             ORG             0013H           ;INT1
+0013 8078              6             JMP             GETRESULT       
+0050                   7             ORG             0050H
+0050                   8     START:
+0050 D28A              9             SETB    IT1
+0052 75B804           10             MOV             IP,#00000100B   ;INT1 priority 1
+0055 75A886           11             MOV             IE,#10000110B   ;interrupt enable ,TF0,INT1,ALL
+0058 C290             12             CLR     P1.0
+005A C28D             13             CLR             TF0                     ;clear timer 0 over flow flag
+005C C28F             14             CLR             TF1                     ;clear timer 1 over flow flag
+005E 7589E2           15             MOV             TMOD,#11100010B  ;GATE p3.3 gate control C1 MODE2/NOGATE T0 MODE2
+0061 758CE3           16             MOV             TH0,#227        ;timer0 產生方波給counter1 clock輸入(p3.5)用
+0064 758AE3           17             MOV             TL0,#227                
+0067 D28C             18             SETB    TR0                     ;TR0=1 可以由外部控制 
+0069 758D00           19             MOV             TH1,#0          ;counter1 數總共count幾次               
+006C 758B00           20             MOV             TL1,#0                   
+006F D28E             21             SETB    TR1                     ;TR1=1 可以由外部控制
+0071                  22     SHOW:                                   ;LOOP show
+0071 EA               23             MOV             A,R2            
+0072 24D0             24             ADD             A,#0D0H         ;顯示百位
+0074 F5A0             25             MOV             P2,A            
+0076 11A6             26             CALL    DELAY           
+0078 E9               27             MOV             A,R1            
+0079 24B0             28             ADD             A,#0B0H 
+007B F5A0             29             MOV             P2,A            ;顯示十位
+007D 11A6             30             CALL    DELAY
+007F E8               31             MOV             A,R0            
+0080 2470             32             ADD             A,#70H  
+0082 F5A0             33             MOV             P2,A            ;顯示個位
+0084 11A6             34             CALL    DELAY
+0086 80E9             35             JMP             SHOW
+0088                  36     SET1:
+0088 B290             37             CPL     P1.0            ;TF0=1
+008A C28D             38             CLR     TF0
+008C 32               39             RETI
+008D                  40     GETRESULT:                              ;給trigger 產生echo接到P3.3當echo high時啟用counter
+                             1
+008D E58B             41             MOV             A,TL1           ;開始接收來自timer0的clock,echo low時觸發interrupt
+008F 75F064           42             MOV             B,#100          
+0092 84               43             DIV             AB              
+0093 FA               44             MOV             R2,A            ;百位R2
+0094 E5F0             45             MOV             A,B             
+0096 75F00A           46             MOV             B,#10           
+0099 84               47             DIV             AB              
+009A F9               48             MOV             R1,A            ;十位R1
+009B A8F0             49             MOV             R0,B            ;個位R0
+009D                  50     INITIALTC:
+009D C28F             51             CLR             TF1             
+009F 758D00           52             MOV             TH1,#0          
+00A2 758B00           53             MOV             TL1,#0
+00A5 32               54             RETI                    
+00A6                  55     DELAY:                  
+00A6 7E14             56             MOV             R6,#20  
+00A8                  57     DELAY1:
+A51 MACRO ASSEMBLER  LAB11_1                                                              12/25/2018 13:09:36 PAGE     2
+
+00A8 7F1E             58             MOV             R7,#30
+00AA                  59     DELAY2:
+00AA DFFE             60             DJNZ    R7,DELAY2
+00AC DEFA             61             DJNZ    R6,DELAY1
+00AE 22               62             RET
+                      63     END
+A51 MACRO ASSEMBLER  LAB11_1                                                              12/25/2018 13:09:36 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+DELAY. . . . . . .  C ADDR   00A6H   A   
+DELAY1 . . . . . .  C ADDR   00A8H   A   
+DELAY2 . . . . . .  C ADDR   00AAH   A   
+GETRESULT. . . . .  C ADDR   008DH   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+INITIALTC. . . . .  C ADDR   009DH   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SET1 . . . . . . .  C ADDR   0088H   A   
+SHOW . . . . . . .  C ADDR   0071H   A   
+START. . . . . . .  C ADDR   0050H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

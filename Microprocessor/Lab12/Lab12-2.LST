@@ -1,0 +1,58 @@
+A51 MACRO ASSEMBLER  LAB12_2                                                              01/08/2019 13:49:17 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab12-2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab12-2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H
+0000 804E              2             JMP     MAIN
+0050                   3             ORG     0050H
+0050                   4     MAIN:
+0050 758920            5             MOV     TMOD,#00100000B         ;NO GATE/T0/MODE2
+0053 758BE6            6             MOV     TL1,#0E6H
+0056 758DE6            7             MOV     TH1,#0E6H
+0059 D28E              8             SETB TR1                                ;T1 RUN+NO GATE = ALWAYS RUN
+005B C29F              9             CLR      SM0
+005D D29E             10             SETB SM1                                ;MODE1
+005F C29D             11             CLR      SM2
+0061 D29C             12             SETB REN                                ;RECEIVE ENABLE
+0063                  13     LOOP:  
+0063 C298             14             CLR     RI                                      ;RI=0
+0065 3098FD           15             JNB     RI,$
+0068 E599             16             MOV     A,SBUF                          ;接收資料
+006A 2420             17             ADD     A,#20H                          ;變小寫
+006C C299             18             CLR TI                                  ;重設傳輸
+006E F599             19             MOV     SBUF,A                          ;傳輸
+0070 3099FD           20             JNB TI,$                                ;等待傳輸完成
+0073 80EE             21             JMP LOOP
+                      22     END
+A51 MACRO ASSEMBLER  LAB12_2                                                              01/08/2019 13:49:17 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+LOOP . . . . . . .  C ADDR   0063H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+REN. . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SM0. . . . . . . .  B ADDR   0098H.7 A   
+SM1. . . . . . . .  B ADDR   0098H.6 A   
+SM2. . . . . . . .  B ADDR   0098H.5 A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,106 @@
+BL51 BANKED LINKER/LOCATER V6.15                                                        01/08/2019  13:48:57  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.15, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE Lab12-1.obj TO Lab12-1 RAMSIZE (256) CODE (0X0000-0XFFFF) XDATA (0X0000-0X03FF)
+
+
+INPUT MODULES INCLUDED:
+  Lab12-1.obj (LAB12_1)
+
+
+LINK MAP OF MODULE:  Lab12-1 (LAB12_1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     00AEH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  Lab12-1 (LAB12_1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        LAB12_1
+  C:00A5H         SYMBOL        DELAY
+  C:00A7H         SYMBOL        DELAY1
+  C:00A9H         SYMBOL        DELAY2
+  C:0050H         SYMBOL        MAIN
+  D:0080H         SYMBOL        P0
+  D:0087H         SYMBOL        PCON
+  B:0098H.0       SYMBOL        RI
+  D:0099H         SYMBOL        SBUF
+  D:0098H         SYMBOL        SCON
+  C:0093H         SYMBOL        SHOW
+  D:008DH         SYMBOL        TH1
+  D:008BH         SYMBOL        TL1
+  D:0089H         SYMBOL        TMOD
+  B:0088H.6       SYMBOL        TR1
+  C:0063H         SYMBOL        WAITA
+  C:006FH         SYMBOL        WAITB
+  C:007BH         SYMBOL        WAITC
+  C:0087H         SYMBOL        WAITD
+  C:0000H         LINE#         2
+  C:0050H         LINE#         5
+  C:0053H         LINE#         6
+  C:0056H         LINE#         7
+  C:0059H         LINE#         8
+  C:005CH         LINE#         9
+  C:005FH         LINE#         10
+  C:0061H         LINE#         11
+  C:0063H         LINE#         13
+  C:0066H         LINE#         14
+  C:0068H         LINE#         15
+  C:006AH         LINE#         16
+BL51 BANKED LINKER/LOCATER V6.15                                                      01/08/2019  13:48:57  PAGE 2
+
+
+  C:006CH         LINE#         17
+  C:006EH         LINE#         18
+  C:006FH         LINE#         20
+  C:0072H         LINE#         21
+  C:0074H         LINE#         22
+  C:0076H         LINE#         23
+  C:0078H         LINE#         24
+  C:007AH         LINE#         25
+  C:007BH         LINE#         27
+  C:007EH         LINE#         28
+  C:0080H         LINE#         29
+  C:0082H         LINE#         30
+  C:0084H         LINE#         31
+  C:0086H         LINE#         32
+  C:0087H         LINE#         34
+  C:008AH         LINE#         35
+  C:008CH         LINE#         36
+  C:008EH         LINE#         37
+  C:0090H         LINE#         38
+  C:0092H         LINE#         39
+  C:0093H         LINE#         41
+  C:0095H         LINE#         42
+  C:0097H         LINE#         43
+  C:0099H         LINE#         44
+  C:009BH         LINE#         45
+  C:009DH         LINE#         46
+  C:009FH         LINE#         47
+  C:00A1H         LINE#         48
+  C:00A3H         LINE#         49
+  C:00A5H         LINE#         53
+  C:00A7H         LINE#         55
+  C:00A9H         LINE#         57
+  C:00ABH         LINE#         58
+  C:00ADH         LINE#         59
+  -------         ENDMOD        LAB12_1
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0060H BYTE ( 4%) *
+******************************************************************************
+
+Program Size: data=8.0 xdata=0 code=174
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

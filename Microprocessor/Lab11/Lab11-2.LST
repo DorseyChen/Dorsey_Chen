@@ -1,0 +1,151 @@
+A51 MACRO ASSEMBLER  LAB11_2                                                              12/25/2018 03:26:07 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab11-2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab11-2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG             0000H
+0000 804E              2             JMP             START
+000B                   3             ORG             000BH           ;T/C0
+000B 01CF              4             JMP             SET1
+0013                   5             ORG             0013H           ;INT1
+0013 01D4              6             JMP             GETRESULT       
+0050                   7             ORG             0050H
+0050                   8     START:
+0050 D28A              9             SETB    IT1
+0052 75B804           10             MOV             IP,#00000100B   ;INT1 priority 1
+0055 75A886           11             MOV             IE,#10000110B   ;interrupt enable ,TF0,INT1,ALL
+0058 C290             12             CLR     P1.0
+005A C28D             13             CLR             TF0                     ;clear timer 0 over flow flag
+005C C28F             14             CLR             TF1                     ;clear timer 1 over flow flag
+005E 7589E2           15             MOV             TMOD,#11100010B  ;GATE p3.3 gate control C1 MODE2/NOGATE T0 MODE2
+0061 758CE3           16             MOV             TH0,#227        ;timer0 產生方波給counter1 clock輸入(p3.5)用
+0064 758AE3           17             MOV             TL0,#227                
+0067 D28C             18             SETB    TR0                     ;TR0=1 可以由外部控制 
+0069 758D00           19             MOV             TH1,#0          ;counter1 數總共count幾次               
+006C 758B00           20             MOV             TL1,#0                   
+006F D28E             21             SETB    TR1                     ;TR1=1 可以由外部控制
+0071                  22     MAIN:
+0071 C291             23             CLR    P1.1
+0073 11ED             24             CALL    DELAY
+0075 11B9             25             CALL    SHOW
+0077 11ED             26             CALL    DELAY
+0079 11B9             27             CALL    SHOW
+007B 11ED             28             CALL    DELAY
+007D 11B9             29             CALL    SHOW
+007F 11ED             30             CALL    DELAY
+0081 11B9             31             CALL    SHOW
+0083 11ED             32             CALL    DELAY
+0085 11B9             33             CALL    SHOW
+0087 11ED             34             CALL    DELAY
+0089 11B9             35             CALL    SHOW
+008B 11ED             36             CALL    DELAY
+008D 11B9             37             CALL    SHOW
+008F 11ED             38             CALL    DELAY
+0091 11B9             39             CALL    SHOW
+0093 11ED             40             CALL    DELAY
+0095 D291             41             SETB    P1.1
+0097 11B9             42             CALL    SHOW
+0099 11ED             43             CALL    DELAY
+009B 11B9             44             CALL    SHOW
+009D 11ED             45             CALL    DELAY
+009F 11B9             46             CALL    SHOW
+00A1 11ED             47             CALL    DELAY
+00A3 11B9             48             CALL    SHOW
+00A5 11ED             49             CALL    DELAY
+00A7 11B9             50             CALL    SHOW
+00A9 11ED             51             CALL    DELAY
+00AB 11B9             52             CALL    SHOW
+00AD 11ED             53             CALL    DELAY
+00AF 11B9             54             CALL    SHOW
+00B1 11ED             55             CALL    DELAY
+00B3 11B9             56             CALL    SHOW
+00B5 11ED             57             CALL    DELAY
+00B7 80B8             58             JMP             MAIN
+A51 MACRO ASSEMBLER  LAB11_2                                                              12/25/2018 03:26:07 PAGE     2
+
+00B9                  59     SHOW:                                                      ;LOOP show
+00B9 EA               60             MOV             A,R2            
+00BA 24D0             61             ADD             A,#0D0H         ;顯示百位
+00BC F5A0             62             MOV             P2,A            
+00BE 11ED             63             CALL    DELAY           
+00C0 E9               64             MOV             A,R1            
+00C1 24B0             65             ADD             A,#0B0H 
+00C3 F5A0             66             MOV             P2,A            ;顯示十位
+00C5 11ED             67             CALL    DELAY
+00C7 E8               68             MOV             A,R0            
+00C8 2470             69             ADD             A,#70H  
+00CA F5A0             70             MOV             P2,A            ;顯示個位
+00CC 11ED             71             CALL    DELAY
+00CE 22               72             RET
+00CF                  73     SET1:
+00CF B290             74             CPL     P1.0                               ;TF0=1
+00D1 C28D             75             CLR     TF0
+00D3 32               76             RETI
+00D4                  77     GETRESULT:                                                 ;給trigger 產生echo接到P3.3當ech
+                             o high時啟用counter1
+00D4 E58B             78             MOV         A,TL1                      ;開始接收來自timer0的clock,echo low時觸發int
+                             errupt
+00D6 75F064           79             MOV         B,#100                     
+00D9 84               80             DIV         AB                     
+00DA FA               81             MOV         R2,A                       ;百位R2
+00DB E5F0             82             MOV         A,B                        
+00DD 75F00A           83             MOV         B,#10               
+00E0 84               84             DIV         AB                     
+00E1 F9               85             MOV         R1,A                       ;十位R1
+00E2 A8F0             86             MOV         R0,B                       ;個位R0
+00E4                  87     INITIALTC:
+00E4 C28F             88             CLR         TF1                         
+00E6 758D00           89             MOV         TH1,#0      
+00E9 758B00           90             MOV         TL1,#0
+00EC 32               91             RETI    
+00ED                  92     DELAY:
+00ED 7E28             93             MOV         R6,#40       
+00EF                  94     DELAY1:
+00EF 7F1E             95             MOV         R7,#30
+00F1                  96     DELAY2:
+00F1 DFFE             97             DJNZ    R7,DELAY2
+00F3 DEFA             98             DJNZ    R6,DELAY1
+00F5 22               99             RET
+                     100     END
+A51 MACRO ASSEMBLER  LAB11_2                                                              12/25/2018 03:26:07 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+DELAY. . . . . . .  C ADDR   00EDH   A   
+DELAY1 . . . . . .  C ADDR   00EFH   A   
+DELAY2 . . . . . .  C ADDR   00F1H   A   
+GETRESULT. . . . .  C ADDR   00D4H   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+INITIALTC. . . . .  C ADDR   00E4H   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+MAIN . . . . . . .  C ADDR   0071H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SET1 . . . . . . .  C ADDR   00CFH   A   
+SHOW . . . . . . .  C ADDR   00B9H   A   
+START. . . . . . .  C ADDR   0050H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
