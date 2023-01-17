@@ -1,0 +1,2 @@
+Javac --module-path $env:PATH_TO_FX --add-modules=javafx.controls,javafx.fxml,javafx.media,javafx.swing *.java
+Java --module-path $env:PATH_TO_FX --add-modules=javafx.controls,javafx.fxml,javafx.media,javafx.swing Main
