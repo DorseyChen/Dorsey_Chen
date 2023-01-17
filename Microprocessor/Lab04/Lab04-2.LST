@@ -1,0 +1,75 @@
+A51 MACRO ASSEMBLER  LAB04_2                                                              11/06/2018 00:51:18 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab04-2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab04-2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+0000 804E              2     JMP START
+0050                   3     ORG 0050H
+                       4     
+0050                   5     START:
+0050 7800              6             MOV R0,#0
+0052 7910              7             MOV R1,#10H
+0054 900070            8             MOV DPTR,#TABLE 
+0057                   9     LOOP:
+0057 759000           10             MOV P1,#00H
+005A E8               11             MOV A,R0
+005B 93               12             MOVC A,@A+DPTR
+005C F580             13             MOV P0,A
+005E 8990             14             MOV P1,R1
+0060 1177             15             CALL DELAY                      
+0062 08               16             INC R0                  
+0063 B807F1           17             CJNE R0,#7,LOOP         
+0066 7800             18             MOV R0,#0
+0068 E9               19             MOV A,R1
+0069 03               20             RR A                    
+006A F9               21             MOV R1,A
+006B B980E9           22             CJNE R1,#80H,LOOP       
+006E 80E0             23             JMP START
+0070                  24     TABLE:
+0070 40               25             DB              40H
+0071 20               26             DB              20H
+0072 10               27             DB              10H
+0073 08               28             DB              08H
+0074 04               29             DB              04H
+0075 02               30             DB              02H
+0076 01               31             DB              01H
+0077                  32     DELAY:
+0077 7E64             33             MOV             R6,#100
+0079                  34     DELAY1:
+0079 7F64             35             MOV             R7,#100
+007B                  36     DELAY2:
+007B 7D14             37             MOV     R5,#20
+007D                  38     DELAY3:
+007D DDFE             39             DJNZ    R5,DELAY3
+007F DFFA             40             DJNZ    R7,DELAY2
+0081 DEF6             41             DJNZ    R6,DELAY1
+0083 22               42             RET
+                      43     END
+A51 MACRO ASSEMBLER  LAB04_2                                                              11/06/2018 00:51:18 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0077H   A   
+DELAY1 . . . . . .  C ADDR   0079H   A   
+DELAY2 . . . . . .  C ADDR   007BH   A   
+DELAY3 . . . . . .  C ADDR   007DH   A   
+LOOP . . . . . . .  C ADDR   0057H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+START. . . . . . .  C ADDR   0050H   A   
+TABLE. . . . . . .  C ADDR   0070H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

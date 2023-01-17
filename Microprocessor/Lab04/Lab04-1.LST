@@ -1,0 +1,98 @@
+A51 MACRO ASSEMBLER  LAB04_1                                                              11/05/2018 22:51:51 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab04-1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab04-1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+0000 804E              2     JMP MAIN
+0050                   3     ORG 0050H
+                       4     
+0050                   5     MAIN:
+0050 7800              6             MOV R0,#0
+0052 7910              7             MOV R1,#010H
+0054 7A00              8             MOV R2,#0
+0056 7B00              9             MOV R3,#0
+0058 7C00             10             MOV R4,#0
+005A 900089           11             MOV DPTR,#TABLE1
+005D                  12     LOOP:
+005D 759000           13             MOV P1,#00H
+0060 E8               14             MOV A,R0
+0061 93               15             MOVC A,@A+DPTR
+0062 F580             16             MOV P0,A
+0064 8990             17             MOV P1,R1
+0066 08               18             INC R0
+0067 E9               19             MOV A,R1
+0068 03               20             RR A
+0069 F9               21             MOV R1,A
+006A 1198             22             CALL DELAY
+006C B805EE           23             CJNE R0,#5,LOOP
+006F 7800             24             MOV R0,#0
+0071 7910             25             MOV R1,#10H
+0073 0A               26             INC R2
+0074 BAFAE6           27             CJNE R2,#250,LOOP
+0077 1A               28             DEC R2
+0078 90008E           29             MOV DPTR,#TABLE2
+007B 0B               30             INC R3
+007C BBFADE           31             CJNE R3,#250,LOOP
+007F 1B               32             DEC R3
+0080 900093           33             MOV DPTR,#TABLE3
+0083 0C               34             INC R4
+0084 BCFAD6           35             CJNE R4,#250,LOOP
+0087 80C7             36             JMP MAIN
+0089                  37     TABLE1:
+0089 12               38             DB              12H
+008A 14               39             DB              14H             
+008B 78               40             DB              78H     
+008C 14               41             DB              14H             
+008D 12               42             DB              12H             
+008E                  43     TABLE2:
+008E 1C               44             DB              1CH                     
+008F 14               45             DB              14H             
+0090 7F               46             DB              7FH     
+0091 14               47             DB              14H             
+0092 1C               48             DB              1CH             
+0093                  49     TABLE3:
+0093 08               50             DB              08H                     
+0094 12               51             DB              12H             
+0095 7E               52             DB              7EH     
+0096 10               53             DB              10H             
+0097 08               54             DB              08H             
+0098                  55     DELAY:
+0098 7E32             56             MOV             R6,#50
+009A                  57     DELAY1:
+009A 7F32             58             MOV             R7,#50
+A51 MACRO ASSEMBLER  LAB04_1                                                              11/05/2018 22:51:51 PAGE     2
+
+009C                  59     DELAY2:
+009C DFFE             60             DJNZ    R7,DELAY2
+009E DEFA             61             DJNZ    R6,DELAY1
+00A0 22               62             RET
+                      63     END
+A51 MACRO ASSEMBLER  LAB04_1                                                              11/05/2018 22:51:51 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0098H   A   
+DELAY1 . . . . . .  C ADDR   009AH   A   
+DELAY2 . . . . . .  C ADDR   009CH   A   
+LOOP . . . . . . .  C ADDR   005DH   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+TABLE1 . . . . . .  C ADDR   0089H   A   
+TABLE2 . . . . . .  C ADDR   008EH   A   
+TABLE3 . . . . . .  C ADDR   0093H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

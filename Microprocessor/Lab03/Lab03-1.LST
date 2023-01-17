@@ -1,0 +1,84 @@
+A51 MACRO ASSEMBLER  LAB03_1                                                              10/27/2018 16:33:07 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Lab03-1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Lab03-1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+0000 804E              2     JMP START
+0050                   3     ORG 0050H
+                       4     ;-------------------------
+0050                   5     START:
+0050 7870              6             MOV R0,#01110000B
+0052 79B0              7             MOV R1,#10110000B
+0054 7AD6              8             MOV R2,#11010110B
+0056 7BE9              9             MOV R3,#11101001B
+0058 7D00             10             MOV R5,#00H             ;counter 0
+005A                  11     MAIN1:
+005A BD0A03           12             CJNE R5,#10,MAIN2       ;R5!=10 跳main2
+005D 7D00             13             MOV R5,#00H             ;控制整體速度
+005F 08               14             INC R0
+0060                  15     MAIN2:
+0060 B87A03           16             CJNE R0,#7AH,SHOW1 ;R0!=10 跳show1
+0063 09               17             INC R1
+0064 7870             18             MOV R0,#70H
+0066                  19     SHOW1:
+0066 8890             20             MOV P1,R0
+0068 118A             21             CALL DELAY
+006A B9BA03           22             CJNE R1,#0BAH,SHOW2;R1!=10 跳show2
+006D 0A               23             INC R2
+006E 79B0             24             MOV R1,#0B0H
+0070                  25     SHOW2:
+0070 8990             26             MOV P1,R1
+0072 118A             27             CALL DELAY
+0074 BADA03           28             CJNE R2,#0DAH,SHOW3;R2!=10 跳show3
+0077 0B               29             INC R3
+0078 7AD0             30             MOV R2,#0D0H
+007A                  31     SHOW3:
+007A 8A90             32             MOV P1,R2
+007C 118A             33             CALL DELAY      
+007E BBEA02           34             CJNE R3,#0EAH,SHOW4;R3!=10 跳show4
+0081 7BE0             35             MOV R3,#0E0H
+0083                  36     SHOW4:
+0083 8B90             37             MOV P1,R3
+0085 118A             38             CALL DELAY
+0087 0D               39             INC R5
+0088 80D0             40             JMP MAIN1
+                      41     ;-----------------------;dealy 0.01s
+008A                  42     DELAY:
+008A 7E14             43             MOV R6,#20
+008C                  44     DELAY1:
+008C 7FFF             45             MOV R7,#255
+008E                  46     DELAY2:
+008E DFFE             47             DJNZ R7,DELAY2
+0090 DEFA             48             DJNZ R6,DELAY1
+0092 22               49             RET     
+                      50     END
+A51 MACRO ASSEMBLER  LAB03_1                                                              10/27/2018 16:33:07 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   008AH   A   
+DELAY1 . . . . . .  C ADDR   008CH   A   
+DELAY2 . . . . . .  C ADDR   008EH   A   
+MAIN1. . . . . . .  C ADDR   005AH   A   
+MAIN2. . . . . . .  C ADDR   0060H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SHOW1. . . . . . .  C ADDR   0066H   A   
+SHOW2. . . . . . .  C ADDR   0070H   A   
+SHOW3. . . . . . .  C ADDR   007AH   A   
+SHOW4. . . . . . .  C ADDR   0083H   A   
+START. . . . . . .  C ADDR   0050H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
